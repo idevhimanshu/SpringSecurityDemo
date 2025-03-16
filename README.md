@@ -2,7 +2,7 @@
 
 This project is a **Spring Boot** application that implements authentication using **Spring Security** with **H2 Database**. It provides APIs for user registration (signup), login, and fetching all registered users.
 
-Features
+# Features
 
 User Registration (Signup)
 
