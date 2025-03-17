@@ -1,147 +1,116 @@
-# SpringSecurityDemo
+# **Spring Security Demo** 🚀  
+This project demonstrates authentication using **Spring Security**, including **Login**, **Signup**, and fetching all users with an **H2 Database**.  
 
-This project is a **Spring Boot** application that implements authentication using **Spring Security** with **H2 Database**. It provides APIs for user registration (signup), login, and fetching all registered users.
+---
 
-# Features
+## **Technologies Used** 🛠️  
+- **Spring Boot**  
+- **Spring Security**  
+- **H2 Database**  
+- **JPA (Hibernate)**  
+- **Spring Web**  
+- **ModelMapper**  
 
-User Registration (Signup)
+---
 
-User Authentication (Login)
+## **Setup Instructions** 📌  
 
-Fetch All Users (Secured API)
-
-Password Encryption using BCrypt
-
-Stateless Authentication using Spring Security
-
-H2 In-Memory Database
-
-Tech Stack
-
-Spring Boot
-
-Spring Security
-
-H2 Database
-
-JPA (Hibernate)
-
-BCrypt Password Encoding
-
-1️⃣ Setup Instructions
-
-Clone the Repository
-
+### **1️⃣ Clone the Repository**
+```sh
 git clone git@github.com:idevhimanshu/SpringSecurityDemo.git
 cd SpringSecurityDemo
+```
 
-Build & Run the Application
-
+### **2️⃣ Run the Application**
+```sh
 mvn spring-boot:run
+```
+The application will start at: `http://localhost:8080`
 
-The application will start on http://localhost:8080.
+---
 
-2️⃣ API Endpoints
+## **H2 Database Console** 🗃️  
+- **URL:** `http://localhost:8080/h2-console`  
+- **JDBC URL:** `jdbc:h2:mem:testdb`  
+- **Username:** `sa`  
+- **Password:** *(Leave empty)*  
 
-🔹 User Signup
+---
 
-Endpoint: /signupMethod: POSTRequest Body:
+## **API Endpoints** 🔥  
 
+### **1️⃣ Signup - Create New User**
+**Endpoint:** `POST /signup`  
+**Request Body:**  
+```json
 {
+  "email": "user@example.com",
   "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123",
-  "mobileNumber": "1234567890"
+  "password": "securepassword",
+  "mobileNumber": "9876543210"
 }
-
-Response:
-
+```
+**Response:**  
+```json
 {
   "id": 1,
+  "email": "user@example.com",
   "name": "John Doe",
-  "email": "john@example.com"
+  "mobileNumber": "9876543210"
 }
+```
 
-🔹 User Login
+---
 
-Endpoint: /loginMethod: POSTRequest Body:
-
+### **2️⃣ Login - Authenticate User**
+**Endpoint:** `POST /login`  
+**Request Body:**  
+```json
 {
-  "email": "john@example.com",
-  "password": "password123"
+  "email": "user@example.com",
+  "password": "securepassword"
 }
-
-Response: (Basic Auth is used for authentication, so no token response)
-
+```
+**Response:**  
+```json
 {
-  "message": "Login Successful"
+  "message": "Login Successful",
+  "token": "eyJhbGciOiJIUzI1..."
 }
+```
 
-🔹 Get All Users (Authenticated API)
+---
 
-Endpoint: /usersMethod: GETAuthentication: Requires Basic Authentication
-
-Response:
-
+### **3️⃣ Get All Users (Requires Authentication)**
+**Endpoint:** `GET /users`  
+**Authorization:** `Basic Auth` or `Bearer Token`  
+**Response:**  
+```json
 [
   {
     "id": 1,
+    "email": "user@example.com",
     "name": "John Doe",
-    "email": "john@example.com",
-    "mobileNumber": "1234567890"
+    "mobileNumber": "9876543210"
   }
 ]
+```
 
-3️⃣ Security Configuration
+---
 
-Security is configured using SecurityFilterChain with the following rules:
+## **Security Configuration (Spring Security)**
+The following security settings are applied in `AppConfiguration.java`:  
+- **CSRF Disabled** ✅  
+- **Login & Signup are Public** 🌍  
+- **All Other APIs Require Authentication** 🔒  
+- **Passwords are Encrypted (BCrypt)** 🔐  
 
-/signup and /login are public.
+---
 
-All other endpoints require authentication.
+## **Contributing** ✨  
+If you want to contribute, feel free to fork the repository and submit a pull request.  
 
-Uses Basic Authentication.
+---
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http.csrf(customizer -> customizer.disable())
-            .authorizeHttpRequests(request -> request
-                    .requestMatchers("/login", "/signup").permitAll()
-                    .anyRequest().authenticated())
-            .httpBasic(Customizer.withDefaults())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .build();
-}
-
-4️⃣ H2 Database Configuration
-
-The application uses an H2 in-memory database. You can access the H2 Console at:
-
-🔗 http://localhost:8080/h2-console
-
-H2 Database Properties (application.properties)
-
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
-5️⃣ Running Tests
-
-Run the tests using Maven:
-
-mvn test
-
-📌 Notes
-
-Ensure Java 17+ and Maven are installed.
-
-To persist data, configure MySQL/PostgreSQL instead of H2.
-
-Replace Basic Authentication with JWT for better security.
-
-🚀 Author
-
-HimanshuGitHub: idevhimanshu
-
+## **License** 📜  
+This project is open-source under the **MIT License**.  
